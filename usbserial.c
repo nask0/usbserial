@@ -219,11 +219,16 @@ static int serial_port_readline(int fd, int timeo, char *buf, int len)
         switch (pusbserial_ops->serial_port_read(fd, ptr, 1)) {
         case 1:
             if (*ptr == '\r')
+            {
                 continue;
-            else if (*ptr == '\n') {
+            } 
+            else if (*ptr == '\n')
+            {
                 *ptr = '\0';
                 return ptr - buf;
-            } else {
+            }
+            else
+            {
                 ptr++;
                 continue;
             }
@@ -231,7 +236,8 @@ static int serial_port_readline(int fd, int timeo, char *buf, int len)
             *ptr = '\0';
             return ptr - buf;
         default:
-            if(errno != EAGAIN || errno != EWOULDBLOCK) {
+            if ( errno != EAGAIN )
+            {
                 printf("%s() failed: %s\n", __func__, strerror(errno));
                 return -1;
             }
